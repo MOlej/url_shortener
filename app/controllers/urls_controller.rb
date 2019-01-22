@@ -8,7 +8,7 @@ class UrlsController < ApplicationController
   def create
     @url = Url.new(url_params)
 
-    @url.shortened_url = @url.shorten
+    @url.shortened_url = UrlShortener::GenerateShortUrl.new(length: Url::SHORT_URL_LENGTH).call
 
     if @url.save
       redirect_to show_url_path(@url.shortened_url)

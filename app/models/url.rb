@@ -9,9 +9,4 @@ class Url < ApplicationRecord
 
   validates :shortened_url, presence: true, uniqueness: true, length: { is: SHORT_URL_LENGTH }
   validates :shortened_url, format: { with: /[a-zA-Z0-9]/ }
-
-  def shorten
-    chars = [*'0'..'9', *'A'..'Z', *'a'..'z']
-    (0...SHORT_URL_LENGTH).map { chars.sample }.join
-  end
 end
