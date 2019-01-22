@@ -1,0 +1,7 @@
+<center>
+  <h1>Shorten your url</h1>
+  <%= form_for @url, class: 'inline-form' do |f| %>
+    <%= f.text_field :original_url, class: 'form-control mb-2 w-50' %>
+    <%= f.submit 'Shorten', class: 'form-control btn btn-primary w-25' %>
+  <% end %>
+</center>
