@@ -27,8 +27,8 @@ class UrlsController < ApplicationController
 
   def redirect_to_original_url
     url = set_url
-
-    redirect_to url.original_url
+    sanitized_url = UrlShortener::SanitizeUrl.new(url: url.original_url).call
+    redirect_to sanitized_url
   end
 
   private

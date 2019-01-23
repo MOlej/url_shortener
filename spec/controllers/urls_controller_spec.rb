@@ -28,12 +28,21 @@ RSpec.describe UrlsController, type: :controller do
   end
 
   describe 'GET #redirect_to_original_url' do
-    it 'redirects to the original url' do
-      url = create(:url)
+    context 'for valid urls' do
+      it 'redirects to the original url' do
+        url = build(:url)
+        valid_urls = ['www.google.com', 'http://www.google.com', 'https://www.google.com', 'google.com', 'http://google.com', 'https://google.com']
 
-      get :redirect_to_original_url, params: { shortened_url: url.shortened_url }
+        valid_urls.each do |original_url|
+          url.original_url = original_url
+          url.save
 
-      expect(response).to redirect_to(url.original_url)
+          get :redirect_to_original_url, params: { shortened_url: url.shortened_url }
+
+          sanitized_url = UrlShortener::SanitizeUrl.new(url: url.original_url).call
+          expect(response).to redirect_to(sanitized_url)
+        end
+      end
     end
   end
 end
