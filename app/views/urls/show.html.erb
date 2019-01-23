@@ -1,5 +1,5 @@
 <center>
-  <a><%= link_to @original_url, @original_url %></a>
+  <%= link_to @original_url, @original_url %>
   shortened to:
-  <a><%= link_to @shortened_url, @shortened_url %></a>
+  <%= link_to @shortened_url, redirect_to_original_url_path %>
 </center>

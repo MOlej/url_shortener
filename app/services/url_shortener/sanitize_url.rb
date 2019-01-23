@@ -5,7 +5,7 @@ module UrlShortener
     end
 
     def call
-      url = redirect_url.strip.downcase.gsub(/(http?:\/\/)|(www\.)/, '')
+      url = redirect_url.strip.gsub(/(http(s)?:\/\/)|(www\.)/, '')
       "https://#{url}"
     end
 
