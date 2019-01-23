@@ -25,6 +25,14 @@ RSpec.describe UrlsController, type: :controller do
     it 'creates a valid shortened url' do
       expect(short_url).to be_valid
     end
+
+    context 'for url that is already in database' do
+      it 'shows already existing shortened url' do
+        post :create, params: { url: valid_url }
+
+        expect(response).to redirect_to(show_url_path(short_url.shortened_url))
+      end
+    end
   end
 
   describe 'GET #redirect_to_original_url' do

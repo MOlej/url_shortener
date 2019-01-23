@@ -8,14 +8,22 @@ class UrlsController < ApplicationController
   def create
     @url = Url.new(url_params)
 
-    @url.shortened_url = UrlShortener::GenerateShortUrl.new(length: Url::SHORT_URL_LENGTH).call
+    duplicate = @url.find_duplicate
 
-    if @url.save
-      redirect_to show_url_path(@url.shortened_url)
+    if duplicate
+      flash[:info] = 'Url is already in the database'
+
+      redirect_to show_url_path(duplicate.shortened_url)
     else
-      flash[:error] = 'Please provide a valid url'
+      @url.shortened_url = UrlShortener::GenerateShortUrl.new(length: Url::SHORT_URL_LENGTH).call
 
-      redirect_to new_url_path
+      if @url.save
+        redirect_to show_url_path(@url.shortened_url)
+      else
+        flash[:danger] = 'Please provide a valid url'
+
+        redirect_to new_url_path
+      end
     end
   end
 
